@@ -1,0 +1,7 @@
+{
+    "hello_world": "echo \"Hello World!\"",
+    "script:default": "./script.sh",
+    "script:with_arg": "./script.sh some_arg",
+    "boolean": "echo \"TRUE/FALSE\"",
+    "pyth": "python -c \"print(1 + 1)\""
+}
