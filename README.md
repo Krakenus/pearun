@@ -4,6 +4,10 @@ A simple utility to run user defined commands.
 
 Inspired by scripts in package.json of npm based projects.
 
+## Install package
+
+`pip install pearun`
+
 ## Usage
 
 User commands are parsed from Pearunfile which contains simple json dictionary.
@@ -18,7 +22,7 @@ Or with `-f/--file` argument when your Pearunfile is not in your CWD:
 
 `pearun -f <path_to_Pearunfile>` or `pearun --file <path_to_Pearunfile>`
 
-To execute your command, simply type its name as a argument:
+To execute your command, simply type its name as an argument:
 
 `pearun hello_world`
 
