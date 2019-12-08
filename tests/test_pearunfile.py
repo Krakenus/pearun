@@ -24,3 +24,11 @@ class PearunfileTestCase(unittest.TestCase):
             temp_file.flush()
             with self.assertRaisesRegex(PearunfileException, r'Pearunfile validation failed.*'):
                 parse_commands(temp_file.name)
+
+    def test_complex_json(self):
+        with NamedTemporaryFile(mode='w') as temp_file:
+            temp_file.write(self.complex_json)
+            temp_file.flush()
+
+            with self.assertRaisesRegex(PearunfileException, r'.*commands are not string values$'):
+                parse_commands(temp_file.name)
