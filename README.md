@@ -1,5 +1,8 @@
 # Pearun
 
+[![Build Status](https://travis-ci.com/Krakenus/Pearun.svg?branch=master)](https://travis-ci.com/Krakenus/Pearun)
+[![PyPI](https://img.shields.io/pypi/v/pearun)](https://pypi.org/project/pearun/)
+
 A simple utility to run user defined commands.
 
 Inspired by scripts in package.json of npm based projects.

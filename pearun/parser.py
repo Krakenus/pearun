@@ -90,7 +90,6 @@ def get_command(commands):
     except KeyError:
         raise PearunException('Unrecognized command: {}'.format(command[0]), parser=parser)
 
-    if len(command) > 1:
-        command = ' '.join(command)
+    command = ' '.join(command)
 
     return command
