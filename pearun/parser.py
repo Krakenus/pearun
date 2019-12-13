@@ -8,15 +8,18 @@ from pearun.exceptions import PearunException, UnspecifiedCommandException, Pear
 DEFAULT_JSON = 'Pearunfile'
 
 
-class CommandAction(argparse._StoreAction):
+class CommandAction(argparse.Action):
     """
     Action to store available commands
     """
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         if self.choices is None:
             self.choices = []
         self._choices_actions = []
+
+    def __call__(self, parser, namespace, values, option_string=None):
+        setattr(namespace, self.dest, values)
 
     def add_choice(self, choice, help_text=''):
         self.choices.append(choice)
