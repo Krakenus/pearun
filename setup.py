@@ -8,7 +8,7 @@ def get_long_description():
 
 setup(
     name='pearun',
-    version='0.1.1',
+    version='0.1.1.post1',
     packages=['pearun'],
     author='Milan Vlasák',
     author_email='krakenus02@gmail.com',
