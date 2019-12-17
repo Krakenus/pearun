@@ -1,7 +1,9 @@
 # Pearun
 
-[![Build Status](https://travis-ci.com/Krakenus/Pearun.svg?branch=master)](https://travis-ci.com/Krakenus/Pearun)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pearun)](https://pypi.org/project/pearun/)
 [![PyPI](https://img.shields.io/pypi/v/pearun)](https://pypi.org/project/pearun/)
+[![PyPI - Wheel](https://img.shields.io/pypi/wheel/pearun)](https://pypi.org/project/pearun/)
+[![Build Status](https://travis-ci.com/Krakenus/Pearun.svg?branch=master)](https://travis-ci.com/Krakenus/Pearun)
 
 A simple utility to run user defined commands.
 
@@ -28,6 +30,10 @@ Or with `-f/--file` argument when your Pearunfile is not in your CWD:
 To execute your command, simply type its name as an argument:
 
 `pearun hello_world`
+
+You can also append custom command line arguments after the command name:
+
+`pearun script:default my_custom_args`
 
 
 ### Pearunfile example
