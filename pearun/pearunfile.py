@@ -1,5 +1,6 @@
-import json
 from collections import OrderedDict
+import json
+import typing
 
 from pearun.exceptions import PearunfileException
 
@@ -7,10 +8,10 @@ from pearun.exceptions import PearunfileException
 class Pearunfile:
 
     def __init__(self, path: str):
-        self.path = path
-        self._commands = None
+        self.path: str = path
+        self._commands: typing.Optional[OrderedDict] = None
 
-    def _parse_commands(self):
+    def _parse_commands(self) -> OrderedDict:
         """
         parses a json Pearunfile to dict and makes it sorted
         :param file_path:
@@ -26,13 +27,13 @@ class Pearunfile:
         return OrderedDict(sorted(commands.items()))
 
     @property
-    def commands(self):
+    def commands(self) -> OrderedDict:
         if not self._commands:
             self._commands = self._parse_commands()
         return self._commands
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: str) -> str:
         return self.commands[item]
 
-    def __contains__(self, item):
+    def __contains__(self, item: str) -> bool:
         return item in self.commands

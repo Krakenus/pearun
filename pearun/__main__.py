@@ -23,8 +23,7 @@ def main():
     try:
         file_path = get_file_path()
         pearunfile = Pearunfile(file_path)
-        commands = pearunfile.commands
-        command = get_command(commands)
+        command = get_command(pearunfile)
     except UnspecifiedCommandException as e:
         e.print_help()
     except PearunException as e:

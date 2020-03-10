@@ -15,6 +15,7 @@ class PearunfileTestCase(unittest.TestCase):
         with NamedTemporaryFile(mode='w') as temp_file:
             temp_file.write(self.invalid_json)
             temp_file.flush()
+
             with self.assertRaisesRegex(PearunfileException, r'Pearunfile parsing failed.*'):
                 pearunfile = Pearunfile(temp_file.name)
                 pearunfile._parse_commands()
@@ -23,6 +24,7 @@ class PearunfileTestCase(unittest.TestCase):
         with NamedTemporaryFile(mode='w') as temp_file:
             temp_file.write(self.complex_json)
             temp_file.flush()
+
             with self.assertRaisesRegex(PearunfileException, r'Pearunfile validation failed.*'):
                 pearunfile = Pearunfile(temp_file.name)
                 pearunfile._parse_commands()
