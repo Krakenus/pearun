@@ -1,7 +1,7 @@
 import unittest
 from tempfile import NamedTemporaryFile
 
-from pearun.parser import parse_commands
+from pearun.pearunfile import Pearunfile
 from pearun.exceptions import PearunfileException
 
 
@@ -16,14 +16,16 @@ class PearunfileTestCase(unittest.TestCase):
             temp_file.write(self.invalid_json)
             temp_file.flush()
             with self.assertRaisesRegex(PearunfileException, r'Pearunfile parsing failed.*'):
-                parse_commands(temp_file.name)
+                pearunfile = Pearunfile(temp_file.name)
+                pearunfile._parse_commands()
 
     def test_non_string_commands(self):
         with NamedTemporaryFile(mode='w') as temp_file:
             temp_file.write(self.complex_json)
             temp_file.flush()
             with self.assertRaisesRegex(PearunfileException, r'Pearunfile validation failed.*'):
-                parse_commands(temp_file.name)
+                pearunfile = Pearunfile(temp_file.name)
+                pearunfile._parse_commands()
 
     def test_complex_json(self):
         with NamedTemporaryFile(mode='w') as temp_file:
@@ -31,4 +33,5 @@ class PearunfileTestCase(unittest.TestCase):
             temp_file.flush()
 
             with self.assertRaisesRegex(PearunfileException, r'.*commands are not string values$'):
-                parse_commands(temp_file.name)
+                pearunfile = Pearunfile(temp_file.name)
+                pearunfile._parse_commands()

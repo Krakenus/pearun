@@ -2,7 +2,8 @@ import os
 import subprocess
 
 from pearun.exceptions import PearunException, UnspecifiedCommandException, PearunfileException
-from pearun.parser import get_file_path, parse_commands, get_command
+from pearun.parser import get_file_path, get_command
+from pearun.pearunfile import Pearunfile
 
 __all__ = ['main']
 
@@ -20,8 +21,9 @@ def _execute_command(command, cwd):
 
 def main():
     try:
-        file = get_file_path()
-        commands = parse_commands(file)
+        file_path = get_file_path()
+        pearunfile = Pearunfile(file_path)
+        commands = pearunfile.commands
         command = get_command(commands)
     except UnspecifiedCommandException as e:
         e.print_help()
@@ -31,7 +33,7 @@ def main():
     except PearunfileException as e:
         print(e)
     else:
-        cwd = os.path.dirname(file)
+        cwd = os.path.dirname(file_path)
         _execute_command(command, cwd)
 
 

@@ -1,9 +1,7 @@
-from collections import OrderedDict
 import argparse
-import json
 import os
 
-from pearun.exceptions import PearunException, UnspecifiedCommandException, PearunfileException
+from pearun.exceptions import PearunException, UnspecifiedCommandException
 
 DEFAULT_JSON = 'Pearunfile'
 
@@ -51,22 +49,6 @@ def get_file_path():
         raise PearunException('File {} not exists'.format(file_path), parser=parser)
     file_path = os.path.abspath(file_path)
     return file_path
-
-
-def parse_commands(file_path):
-    """
-    parses a json Pearunfile to dict and makes it sorted
-    :param file_path:
-    :return: OrderedDict of defined commands
-    """
-    with open(file_path) as file:
-        try:
-            commands = json.load(file)
-        except Exception as e:
-            raise PearunfileException('Pearunfile parsing failed: {}'.format(e))
-    if not all(isinstance(command, str) for command in commands.values()):
-        raise PearunfileException('Pearunfile validation failed: commands are not string values')
-    return OrderedDict(sorted(commands.items()))
 
 
 def get_command(commands):
