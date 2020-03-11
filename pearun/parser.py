@@ -47,7 +47,7 @@ def get_file_path():
     args, _ = parser.parse_known_args()
     file_path = args.file if args and args.file else DEFAULT_JSON
     if not os.path.exists(file_path):
-        raise PearunException('File {} not exists'.format(file_path), parser=parser)
+        raise PearunException('File {} not exists'.format(file_path))
     file_path = os.path.abspath(file_path)
     return file_path
 
@@ -69,12 +69,12 @@ def get_command(pearunfile: Pearunfile) -> str:
     command = args.command
 
     if not command:
-        raise UnspecifiedCommandException(parser=parser)
+        raise UnspecifiedCommandException()
 
     try:
         command[0] = pearunfile.commands[command[0]]
     except KeyError:
-        raise PearunException('Unrecognized command: {}'.format(command[0]), parser=parser)
+        raise PearunException('Unrecognized command: {}'.format(command[0]))
 
     command = ' '.join(command)
 
