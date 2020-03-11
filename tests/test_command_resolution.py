@@ -1,35 +1,51 @@
-from unittest import TestCase
-from unittest.mock import patch
+from tempfile import NamedTemporaryFile
+from unittest import TestCase, mock
 
 from pearun.exceptions import PearunException
 from pearun.parser import get_command
+from pearun.pearunfile import Pearunfile
 
 
 class CommandResolutionTestCase(TestCase):
 
     def setUp(self):
-        self.commands = {
-            'command_a': 'echo "A"',
-            'command_b': './deploy.sh',
-        }
+        self.commands_json = '''{
+            "command_a": "echo 'A'",
+            "command_b": "./deploy.sh"
+        }'''
 
-    @patch('sys.argv', ['pearun', 'command_c'])
+    @mock.patch('sys.argv', ['pearun', 'command_c'])
     def test_unexisting_command(self):
-        with self.assertRaisesRegex(PearunException, r'Unrecognized command.*'):
-            get_command(self.commands)
+        with NamedTemporaryFile(mode='w') as temp_file:
+            temp_file.write(self.commands_json)
+            temp_file.flush()
+
+            with self.assertRaisesRegex(PearunException, r'Unrecognized command.*'):
+                pearunfile = Pearunfile(temp_file.name)
+                get_command(pearunfile)
 
     def test_known_command(self):
-        command_name = 'command_a'
-        with patch('sys.argv', ['pearun', command_name]):
-            command = get_command(self.commands)
-        self.assertEqual(command, self.commands[command_name])
+        with NamedTemporaryFile(mode='w') as temp_file:
+            temp_file.write(self.commands_json)
+            temp_file.flush()
+
+            command_name = 'command_a'
+            with mock.patch('sys.argv', ['pearun', command_name]):
+                pearunfile = Pearunfile(temp_file.name)
+                command = get_command(pearunfile)
+        self.assertEqual(command, pearunfile[command_name])
 
     def test_command_with_args(self):
-        command_name = 'command_b'
-        command_args = ['production', 'fast']
-        sys_argv = ['pearun', command_name] + command_args
-        expected_command = ' '.join([self.commands[command_name]] + command_args)
+        with NamedTemporaryFile(mode='w') as temp_file:
+            temp_file.write(self.commands_json)
+            temp_file.flush()
 
-        with patch('sys.argv', sys_argv):
-            command = get_command(self.commands)
+            command_name = 'command_b'
+            command_args = ['production', 'fast']
+            sys_argv = ['pearun', command_name] + command_args
+            pearunfile = Pearunfile(temp_file.name)
+            expected_command = ' '.join([pearunfile[command_name]] + command_args)
+
+            with mock.patch('sys.argv', sys_argv):
+                command = get_command(pearunfile)
         self.assertEqual(command, expected_command)
