@@ -5,7 +5,6 @@ import os
 import click
 
 from pearun.exceptions import PearunException, UnspecifiedCommandException, PearunfileException
-from pearun.parser import get_command
 from pearun.pearunfile import Pearunfile
 
 __all__ = ['main']
@@ -96,8 +95,11 @@ def main(**kwargs):
         _list_commands(pearunfile)
         sys.exit(0)
 
+    command_name = kwargs.get('command')
+    args = kwargs.get('args', [])
+
     try:
-        cmd = get_command(pearunfile)
+        command = pearunfile.resolve_command(command_name, *args)
     except UnspecifiedCommandException:
         _show_help_and_list_commands(pearunfile)
         sys.exit(1)
@@ -107,7 +109,7 @@ def main(**kwargs):
         sys.exit(1)
 
     cwd = os.path.dirname(file_path)
-    _execute_command(cmd, cwd)
+    _execute_command(command, cwd)
 
 
 if __name__ == '__main__':

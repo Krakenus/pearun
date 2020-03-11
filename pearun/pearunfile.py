@@ -3,7 +3,7 @@ import json
 import typing
 import os
 
-from pearun.exceptions import PearunfileException, PearunException
+from pearun.exceptions import PearunfileException, PearunException, UnspecifiedCommandException
 
 
 class Pearunfile:
@@ -33,9 +33,29 @@ class Pearunfile:
 
     @property
     def commands(self) -> OrderedDict:
+        """
+        :return:
+        """
         if not self._commands:
             self._commands = self._parse_commands()
         return self._commands
+
+    def resolve_command(self, command_name: str, *args) -> str:
+        """
+        :param command_name:
+        :param args:
+        :return:
+        """
+
+        if not command_name:
+            raise UnspecifiedCommandException()
+
+        try:
+            command = self[command_name]
+        except KeyError:
+            raise PearunException('Unrecognized command: {}'.format(command_name))
+        command = ' '.join([command, *args])
+        return command
 
     def __bool__(self) -> bool:
         return bool(self.commands)
