@@ -11,7 +11,7 @@ from pearun.pearunfile import Pearunfile
 __all__ = ['main']
 
 
-def _execute_command(command, cwd):
+def _execute_command(command, cwd) -> None:
     """
     Runs specified command
     :param command: command to run
@@ -22,17 +22,23 @@ def _execute_command(command, cwd):
     process.wait()
 
 
-def _show_help():
+def _show_help() -> None:
     with click.Context(main) as context:
         help = context.get_help()
         print(help)
 
 
-def _list_commands(commands: dict):
-    if commands:
+def _list_commands(pearunfile: Pearunfile) -> None:
+    if len(pearunfile):
         print('Available commands:')
-        for command_name, command in commands.items():
+        for command_name, command in pearunfile.commands.items():
             print('    {:<20}{:<40}'.format(command_name, command))
+
+
+def _show_help_and_list_commands(pearunfile: Pearunfile) -> None:
+    _show_help()
+    print('')
+    _list_commands(pearunfile)
 
 
 @click.command(help='Tool for running user defined scripts')
@@ -74,21 +80,10 @@ def main(**kwargs):
         _show_help()
         sys.exit(0)
 
-    commands = {}
+    file_path = kwargs.get('file')
+
     try:
-        file_path = kwargs.get('file')
         pearunfile = Pearunfile(file_path)
-
-        if kwargs.get('list', False):
-            _list_commands(commands)
-            sys.exit(0)
-
-        cmd = get_command(pearunfile)
-    except UnspecifiedCommandException:
-        _show_help()
-        print('')
-        _list_commands(commands)
-        sys.exit(1)
     except PearunException as e:
         print(e, end='\n\n')
         _show_help()
@@ -96,9 +91,23 @@ def main(**kwargs):
     except PearunfileException as e:
         print(e)
         sys.exit(1)
-    else:
-        cwd = os.path.dirname(file_path)
-        _execute_command(cmd, cwd)
+
+    if kwargs.get('list', False):
+        _list_commands(pearunfile)
+        sys.exit(0)
+
+    try:
+        cmd = get_command(pearunfile)
+    except UnspecifiedCommandException:
+        _show_help_and_list_commands(pearunfile)
+        sys.exit(1)
+    except PearunException as e:
+        print(e, end='\n\n')
+        _list_commands(pearunfile)
+        sys.exit(1)
+
+    cwd = os.path.dirname(file_path)
+    _execute_command(cmd, cwd)
 
 
 if __name__ == '__main__':
