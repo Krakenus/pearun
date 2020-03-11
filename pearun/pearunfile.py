@@ -1,8 +1,9 @@
 from collections import OrderedDict
 import json
 import typing
+import os
 
-from pearun.exceptions import PearunfileException
+from pearun.exceptions import PearunfileException, PearunException
 
 
 class Pearunfile:
@@ -10,6 +11,11 @@ class Pearunfile:
     def __init__(self, path: str):
         self.path: str = path
         self._commands: typing.Optional[OrderedDict] = None
+        self._check_file_exists()
+
+    def _check_file_exists(self):
+        if not os.path.exists(self.path):
+            raise PearunException('File {} not exists'.format(self.path))
 
     def _parse_commands(self) -> OrderedDict:
         """

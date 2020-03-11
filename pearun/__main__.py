@@ -1,11 +1,11 @@
-import os
 import sys
 import subprocess
+import os
 
 import click
 
 from pearun.exceptions import PearunException, UnspecifiedCommandException, PearunfileException
-from pearun.parser import get_file_path, get_command
+from pearun.parser import get_command
 from pearun.pearunfile import Pearunfile
 
 __all__ = ['main']
@@ -26,11 +26,6 @@ def _show_help():
     with click.Context(main) as context:
         help = context.get_help()
         print(help)
-
-
-def _validate_pearun_file(file_path):
-    if not os.path.exists(file_path):
-        raise PearunException('File {} not exists'.format(file_path))
 
 
 def _list_commands(commands: dict):
@@ -82,7 +77,6 @@ def main(**kwargs):
     commands = {}
     try:
         file_path = kwargs.get('file')
-        _validate_pearun_file(file_path)
         pearunfile = Pearunfile(file_path)
 
         if kwargs.get('list', False):
