@@ -3,7 +3,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pearun)](https://pypi.org/project/pearun/)
 [![PyPI](https://img.shields.io/pypi/v/pearun)](https://pypi.org/project/pearun/)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/pearun)](https://pypi.org/project/pearun/)
-[![Build Status](https://travis-ci.com/Krakenus/Pearun.svg?branch=master)](https://travis-ci.com/Krakenus/Pearun)
+[![Build Status](https://travis-ci.com/Krakenus/pearun.svg?branch=master)](https://travis-ci.com/Krakenus/pearun)
 
 A simple utility to run user defined commands.
 
@@ -21,9 +21,9 @@ It is possible to run inline shell commands or execute whole script files.
 
 With your Pearunfile ready, you can list your commands by: 
 
-`pearun` or `pearun --help`
+`pearun -l` or `pearun --list`
 
-Or with `-f/--file` argument when your Pearunfile is not in your CWD:
+Use `-f/--file` option when your Pearunfile is not in your CWD:
 
 `pearun -f <path_to_Pearunfile>` or `pearun --file <path_to_Pearunfile>`
 
@@ -48,4 +48,4 @@ You can also append custom command line arguments after the command name:
 }
 ```
 
-See examples folder to try this Pearunfile.
+See `examples/` folder to try this Pearunfile.

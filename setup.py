@@ -8,16 +8,19 @@ def get_long_description():
 
 setup(
     name='pearun',
-    version='0.1.1.post1',
+    version='1.0.0',
     packages=['pearun'],
     author='Milan Vlasák',
     author_email='krakenus02@gmail.com',
     description='A simple utility to run user defined commands',
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    url='https://github.com/Krakenus/Pearun',
+    url='https://github.com/Krakenus/pearun',
     license='MIT',
     python_requires='>=3.6',
+    install_requires=[
+        'click',
+    ],
     entry_points={
         'console_scripts': [
             'pearun = pearun.__main__:main',
