@@ -3,7 +3,7 @@
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pearun)](https://pypi.org/project/pearun/)
 [![PyPI](https://img.shields.io/pypi/v/pearun)](https://pypi.org/project/pearun/)
 [![PyPI - Wheel](https://img.shields.io/pypi/wheel/pearun)](https://pypi.org/project/pearun/)
-[![Build Status](https://travis-ci.com/Krakenus/pearun.svg?branch=master)](https://travis-ci.com/Krakenus/pearun)
+[![Python package](https://github.com/Krakenus/pearun/actions/workflows/python-package.yml/badge.svg)](https://github.com/Krakenus/pearun/actions/workflows/python-package.yml)
 
 A simple utility to run user defined commands.
 
